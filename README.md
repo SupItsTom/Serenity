@@ -16,3 +16,13 @@ From here you can inject your mod to your platform (aslong as connection is not 
 ## Testing
 I recommend using Plutonium for testing your mod quickly. [Here is a guide on how to load your mod into Plutonium](https://plutonium.pw/docs/modding/loading-mods/#t6).\
 Just note that some features available on Plutonium are not available on Consoles, such as `println` & `assertmsg`.
+
+## Releasing (Xbox)
+Typically GSC menus are injected to `0x40300000` and then they overwrite the pointer of the script itself to go there.\
+You can do this in your own tool by doing the following (assuming you are using JRPC2):
+```csharp
+// load your gsc into memory
+Console.SetMemory(0x40300000, File.ReadAllBytes("/path-to/mod.gsc"));
+// now tell the game where to find it
+Console.WriteUInt32(0x831EBE78, 0x40300000); // 0x831EBE78 = _clientids.gsc
+```
